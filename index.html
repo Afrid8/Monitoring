@@ -2,12 +2,12 @@
 <html>
 
 <head>
-  <title>Event Booking Application</title>
+  <title>Patient Registration Form</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: url('https://cdn.dribbble.com/users/879059/screenshots/4040043/ksam_concert_by_joakim_agervald.gif');
+      background: url('/Picture1.jpg');
       background-size: cover;
       font-family: 'Arial', sans-serif;
       color: #ebece7;
@@ -43,8 +43,7 @@
     }
 
     input,
-    select,
-    textarea {
+    select {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
@@ -83,47 +82,46 @@
 
 <body>
   <div class="container">
-    <h1>Event Booking Application</h1>
+    <h1>Patient Registration Form</h1>
     <form action="/" method="POST" onsubmit="return validateForm()">
       <div class="form-group">
-        <label for="eventName">Event Name:</label>
-        <input type="text" id="eventName" name="eventName" required>
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required>
       </div>
       <div class="form-group">
-        <label for="eventType">Event Type:</label>
-        <select id="eventType" name="eventType" required>
+        <label for="dateOfBirth">Date of Birth:</label>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
           <option value="">--Please select--</option>
-          <option value="Conference">Conference</option>
-          <option value="Conference">Party</option>
-          <option value="Seminar">Seminar</option>
-          <option value="Wedding">Wedding</option>
-          <option value="Concert">Concert</option>
-          <!-- Add more options as needed -->
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="dateTime">Date and Time:</label>
-        <input type="datetime-local" id="dateTime" name="dateTime" required>
+        <label for="socialSecurityNumber">Social Security Number:</label>
+        <input type="text" id="socialSecurityNumber" name="socialSecurityNumber" required>
       </div>
       <div class="form-group">
-        <label for="venue">Venue:</label>
-        <input type="text" id="venue" name="venue" required>
+        <label for="maritalStatus">Marital Status:</label>
+        <select id="maritalStatus" name="maritalStatus" required>
+          <option value="">--Please select--</option>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Widowed">Widowed</option>
+        </select>
       </div>
       <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required>
       </div>
       <div class="form-group">
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" min="0" step="0.01" required>
-      </div>
-      <div class="form-group">
-        <label for="organizerName">Organizer Name:</label>
-        <input type="text" id="organizerName" name="organizerName" required>
-      </div>
-      <div class="form-group">
-        <label for="organizerPhone">Organizer Phone Number:</label>
-        <input type="tel" id="organizerPhone" name="organizerPhone" required>
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -131,26 +129,39 @@
 
   <script>
     function validateForm() {
-      var eventName = document.getElementById('eventName').value;
-      var eventType = document.getElementById('eventType').value;
-      var dateTime = document.getElementById('dateTime').value;
-      var venue = document.getElementById('venue').value;
-      var description = document.getElementById('description').value;
-      var price = document.getElementById('price').value;
-      var organizerName = document.getElementById('organizerName').value;
-      var organizerPhone = document.getElementById('organizerPhone').value;
+      var fullName = document.getElementById('fullName').value;
+      var dateOfBirth = document.getElementById('dateOfBirth').value;
+      var gender = document.getElementById('gender').value;
+      var socialSecurityNumber = document.getElementById('socialSecurityNumber').value;
+      var maritalStatus = document.getElementById('maritalStatus').value;
+      var phoneNumber = document.getElementById('phoneNumber').value;
+      var email = document.getElementById('email').value;
 
       // Validation rules
       var nameRegex = /^[A-Za-z\s]+$/;
-      var priceRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
+      var socialSecurityRegex = /^\d{3}-\d{2}-\d{4}$/;
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       var phoneRegex = /^[0-9]{10}$/;
 
-      if (!nameRegex.test(eventName)) {
-        alert('Event Name should only contain alphabetic characters.');
+      if (!nameRegex.test(fullName)) {
+        alert('Please enter a valid full name.');
         return false;
       }
 
-      // Add more validation rules as needed
+      if (!socialSecurityRegex.test(socialSecurityNumber)) {
+        alert('Please enter a valid Social Security Number in the format: XXX-XX-XXXX.');
+        return false;
+      }
+
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.');
+        return false;
+      }
+
+      if (!phoneRegex.test(phoneNumber)) {
+        alert('Please enter a valid 10-digit phone number.');
+        return false;
+      }
 
       // Return true if the form is valid, otherwise return false
       return true;
@@ -158,4 +169,4 @@
   </script>
 </body>
 
-</html> 
+</html>

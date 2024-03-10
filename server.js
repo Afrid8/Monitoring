@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Connect to MongoDB
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/Adeebuddin';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/Afrid';
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -21,18 +21,17 @@ mongoose.connect(MONGODB_URI, {
   });
 
 // Define MongoDB Schema
-const eventSchema = new mongoose.Schema({
-  eventName: String,
-  eventType: String,
-  dateTime: Date,
-  venue: String,
-  description: String,
-  price: Number,
-  organizerName: String,
-  organizerPhone: String,
+const userSchema = new mongoose.Schema({
+  fullName: String,
+  dateOfBirth: Date,
+  gender: String,
+  socialSecurityNumber: String,
+  maritalStatus: String,
+  phoneNumber: String,
+  email: String,
 });
 
-const Event = mongoose.model('Event', eventSchema);
+const User = mongoose.model('User', userSchema);
 
 // Routes
 app.get('/', (req, res) => {
@@ -40,33 +39,31 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-  const { eventName, eventType, dateTime, venue, description, price, organizerName, organizerPhone } = req.body;
+  const { fullName, dateOfBirth, gender, socialSecurityNumber, maritalStatus, phoneNumber, email } = req.body;
 
-  const newEvent = new Event({
-    eventName,
-    eventType,
-    dateTime,
-    venue,
-    description,
-    price,
-    organizerName,
-    organizerPhone,
+  const newUser = new User({
+    fullName,
+    dateOfBirth,
+    gender,
+    socialSecurityNumber,
+    maritalStatus,
+    phoneNumber,
+    email,
   });
 
-  newEvent.save()
-    .then((savedEvent) => {
-      console.log('Event saved:', savedEvent);
+  newUser.save()
+    .then((savedUser) => {
+      console.log('User saved:', savedUser);
       res.send(`
         <!DOCTYPE html>
         <html>
           <head>
-            <title>Event Booking Application</title>
+            <title>Patient Registration Form</title>
             <style>
               body {
                 margin: 0;
                 padding: 0;
                 background: url('https://cdn.dribbble.com/users/879059/screenshots/4040043/ksam_concert_by_joakim_agervald.gif');
-
                 background-size: cover;
                 display: flex; 
                 align-items: center;
@@ -99,16 +96,15 @@ app.post('/', (req, res) => {
           </head>
           <body>
             <div class="container">
-              <h1>Thank you for booking the event</h1>
+              <h1>Thank you for the application</h1>
               <div class="info-box">
-                <p><strong>Event Name:</strong> ${eventName}</p>
-                <p><strong>Event Type:</strong> ${eventType}</p>
-                <p><strong>Date and Time:</strong> ${dateTime}</p>
-                <p><strong>Venue:</strong> ${venue}</p>
-                <p><strong>Description:</strong> ${description}</p>
-                <p><strong>Price:</strong> ${price}</p>
-                <p><strong>Organizer Name:</strong> ${organizerName}</p>
-                <p><strong>Organizer Phone Number:</strong> ${organizerPhone}</p>
+                <p><strong>Full Name:</strong> ${fullName}</p>
+                <p><strong>Date of Birth:</strong> ${dateOfBirth}</p>
+                <p><strong>Gender:</strong> ${gender}</p>
+                <p><strong>Social Security Number:</strong> ${socialSecurityNumber}</p>
+                <p><strong>Marital Status:</strong> ${maritalStatus}</p>
+                <p><strong>Phone Number:</strong> ${phoneNumber}</p>
+                <p><strong>Email ID:</strong> ${email}</p>
               </div>
             </div>
           </body>
@@ -116,12 +112,12 @@ app.post('/', (req, res) => {
       `);
     })
     .catch((error) => {
-      console.error('Error saving event:', error);
+      console.error('Error saving user:', error);
       res.status(500).send('Internal Server Error');
     });
 });
 
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
-  console.log(`Event Booking Application listening on port ${PORT}`);
+  console.log(`Patient Registration Form listening on port ${PORT}`);
 });
